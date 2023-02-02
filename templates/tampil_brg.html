@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block konten %}
+
+<h3 class="text-center">Daftar Barang</h3>
+
+<div class="container">
+    {% for message in messages %}
+    {% if message %}
+    <div class="alert alert-success">{{ message }}</div>
+    {% endif %}
+    {% endfor %}
+    <a href="/addbrg" class="btn btn-primary">Add Data</a>
+    <table class="table table-bordered-sm">
+        <thead>
+            <tr>
+                <th>Kode Barang</th>
+                <th>Nama</th>
+                <th>Stok</th>
+                <th>Harga</th>
+                <th>Jenis</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for Barang in barangs %}
+
+            <tr>
+                <!-- <td>{{ Barang.kodebrg }}</td> -->
+                <td><a href="{% url 'ubah_brg' Barang.id %}">{{ Barang.kodebrg }}</a></td>
+                <td>{{ Barang.nama }}</td>
+                <td>{{ Barang.stok }}</td>
+                <td>{{ Barang.harga }}</td>
+                <!-- <td>{{ Barang.jenis_id_id }}</td> -->
+                <td>{{ Barang.jenis_id.nama }}</td>
+                <td><button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#hapus-{{ Barang.id }}">Delete</button></td>
+
+                <!-- Modal Start -->
+                <div class="modal fade" id="hapus-{{ Barang.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Yakin ingin dihapus ?</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Nama barang : {{ Barang.nama }}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                                <a href="{% url 'hapus_brg' Barang.id %}" class="btn btn-danger">Hapus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal End -->
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
